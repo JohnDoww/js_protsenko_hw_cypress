@@ -19,19 +19,54 @@ describe('tost test', () => {
             .should('have.value', 'Awesome content is here');
         cy.get('.form-group .select-button').eq(1).click();
         cy.get('#nb-option-35').click();
+        cy.get('nb-card-footer .mat-ripple')
+            .eq(0)
+            .click();
 
-        cy.get('nb-card-footer .mat-ripple').eq(0).click();
-        cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').should("be.visible");
-        cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').then( elementWhichIFound => {
-            expect(elementWhichIFound).to.contain.text('Test Testenko');
-            expect(elementWhichIFound).to.contain.text('Awesome content is here');
-            // expect(tableCell).to.have.html('Column content');
-            // expect(tableCell).to.contain('Column content');
-            // expect(tableCell).to.contain(' content');
-            // expect(tableCell.text()).to.include('Column content');
-            // expect(tableCell.text()).to.include(' content');
-            // expect(tableCell).to.not.contain('qwe12');
-        })
+
+        // // const toastsParams = [
+        //     {
+        //         testData: {
+        //             position:'lex',
+        //             title:'i',
+        //             content:'1990',
+        //             toastType:'1999'
+        //         },
+        //         expectedResult: {
+        //             backgroundColor:'Lexus',
+        //             position:'IS',
+        //
+        //         }
+        //     }
+        // ]
+        // fillInToasts.forEach(toastsData=> {
+
+            cy.get('[ng-reflect-name="title"]')
+                .clear()
+                .type('Test Testenko')
+                .should('have.value', 'Test Testenko');
+            cy.get('[ng-reflect-name="content"]')
+                .clear()
+                .type('Awesome content is here')
+                .should('have.value', 'Awesome content is here');
+            cy.get('.form-group .select-button').eq(1).click();
+            cy.get('#nb-option-35').click();
+            cy.get('nb-card-footer .mat-ripple').eq(0).click();
+
+            cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').should("be.visible");
+            cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').then(elementWhichIFound => {
+                expect(elementWhichIFound).to.contain.text('Test Testenko');
+                expect(elementWhichIFound).to.contain.text('Awesome content is here');
+                // there I have a trouble
+                expect(elementWhichIFound.has('background')).contain('rgb(255 170 0)');
+                // expect(tableCell).to.have.html('Column content');
+                // expect(tableCell).to.contain('Column content');
+                // expect(tableCell).to.contain(' content');
+                // expect(tableCell.text()).to.include('Column content');
+                // expect(tableCell.text()).to.include(' content');
+                // expect(tableCell).to.not.contain('qwe12');
+            })
+        // })
 
 
         /**
