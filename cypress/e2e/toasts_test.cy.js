@@ -53,13 +53,23 @@ describe('tost test', () => {
             cy.get('#nb-option-35').click();
             cy.get('nb-card-footer .mat-ripple').eq(0).click();
 
-            cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').should("be.visible");
-            cy.get('nb-toastr-container .ng-tns-c209-54.ng-star-inserted').then(elementWhichIFound => {
+            cy.get('.ng-tns-c209-54.ng-star-inserted').eq(0).should("be.visible");
+
+            cy.get('.ng-tns-c209-54.ng-star-inserted').eq(0).then(elementWhichIFound => {
                 expect(elementWhichIFound).to.contain.text('Test Testenko');
                 expect(elementWhichIFound).to.contain.text('Awesome content is here');
+                expect(elementWhichIFound.attr('data-name', 'alert-triangle')).to.eq('alert-triangle');
+
+
+
+                // expect(elementWhichIFound).to.('Awesome content is here');
+                // expect(elementWhichIFound.attr('data-name', 'email')).contain('email');
                 // there I have a trouble
-                expect(elementWhichIFound.has('background')).contain('rgb(255 170 0)');
+                // expect(elementWhichIFound.to.bgColor('background')).contain('rgb(255 170 0)');
                 // expect(tableCell).to.have.html('Column content');
+
+
+
                 // expect(tableCell).to.contain('Column content');
                 // expect(tableCell).to.contain(' content');
                 // expect(tableCell.text()).to.include('Column content');
