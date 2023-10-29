@@ -1,93 +1,121 @@
 
 describe('tost test', () => {
-    it('passes', () => {
+
+    before(()=>{
         cy.visit('https://sanitarskyi-ngx-admin.herokuapp.com/');
+    })
+    it('passes', () => {
+
         cy.get('[alt="Dark Theme"]').click();
         cy.get('.menu-title.ng-tns-c141-19').click();
         cy.get('[title="Toastr"]').click();
 
+        const toastsParams = [
+            {
+                testData: {
+                    position: '#nb-option-25',
+                    title: 'toast in the top left',
+                    content: 'warning toast',
+                    toastType: '#nb-option-35',
+                },
+                expectedResult: {
+                    backgroundColor: 'rgb(255, 170, 0)',
+                    icon: 'alert-triangle',
+                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    toastElement:'[class="ng-tns-c209-54 ng-star-inserted"]',
+                    toastSettings: '.ng-tns-c209-54.ng-trigger'
 
-        cy.get('.form-group .select-button').eq(0).click();
-        cy.get('#nb-option-30').click();
-        cy.get('[ng-reflect-name="title"]')
-            .clear()
-            .type('Test Testenko')
-            .should('have.value', 'Test Testenko');
-        cy.get('[ng-reflect-name="content"]')
-            .clear()
-            .type('Awesome content is here')
-            .should('have.value', 'Awesome content is here');
-        cy.get('.form-group .select-button').eq(1).click();
-        cy.get('#nb-option-35').click();
-        cy.get('nb-card-footer .mat-ripple')
-            .eq(0)
-            .click();
+                }
+            }, {
+                testData: {
+                    position: '#nb-option-24',
+                    title: 'toast in the top right',
+                    content: 'success toast',
+                    toastType: '#nb-option-33',
+                },
+                expectedResult: {
+                    backgroundColor: 'rgb(0, 214, 143)',
+                    icon: 'checkmark',
+                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    toastElement:'[class="ng-tns-c209-55 ng-star-inserted"]',
+                    toastSettings: '.ng-tns-c209-55.ng-star-inserted nb-toast'
+                }
+            },{
+                testData: {
+                    position: '#nb-option-26',
+                    title: 'toast in the bottom left',
+                    content: 'info toast',
+                    toastType: '#nb-option-34',
+                },
+                expectedResult: {
+                    backgroundColor: 'rgb(0, 149, 255)',
+                    icon: 'question-mark',
+                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    toastElement:'.ng-tns-c209-56.ng-star-inserted',
+                    toastSettings: '.ng-tns-c209-56.ng-trigger'
+                }
+            },{
+                testData: {
+                    position: '#nb-option-27',
+                    title: 'toast in the bottom right',
+                    content: 'dangerous toast',
+                    toastType: '#nb-option-36',
+                },
+                expectedResult: {
+                    backgroundColor: 'rgb(255, 61, 113)',
+                    icon: 'flash',
+                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    toastElement:'.ng-tns-c209-57.ng-star-inserted',
+                    toastSettings: '.ng-tns-c209-57.ng-trigger'
+                }
+            }
+        ]
+        toastsParams.forEach(toastsData => {
 
-
-        // // const toastsParams = [
-        //     {
-        //         testData: {
-        //             position:'lex',
-        //             title:'i',
-        //             content:'1990',
-        //             toastType:'1999'
-        //         },
-        //         expectedResult: {
-        //             backgroundColor:'Lexus',
-        //             position:'IS',
-        //
-        //         }
-        //     }
-        // ]
-        // fillInToasts.forEach(toastsData=> {
+            cy.get('.form-group .select-button')
+                .eq(0)
+                .click();
+            cy.get(toastsData.testData.position)
+                .click();
 
             cy.get('[ng-reflect-name="title"]')
                 .clear()
-                .type('Test Testenko')
-                .should('have.value', 'Test Testenko');
+                .type(toastsData.testData.title)
+                .should('have.value', toastsData.testData.title);
             cy.get('[ng-reflect-name="content"]')
                 .clear()
-                .type('Awesome content is here')
-                .should('have.value', 'Awesome content is here');
-            cy.get('.form-group .select-button').eq(1).click();
-            cy.get('#nb-option-35').click();
-            cy.get('nb-card-footer .mat-ripple').eq(0).click();
+                .type(toastsData.testData.content)
+                .should('have.value', toastsData.testData.content);
+            cy.get('.form-group .select-button')
+                .eq(1)
+                .click();
+            cy.get(toastsData.testData.toastType)
+                .click();
+            cy.get('nb-card-footer .mat-ripple')
+                .eq(0)
+                .click();
 
-            cy.get('.ng-tns-c209-54.ng-star-inserted').eq(0).should("be.visible");
+            cy.get(toastsData.expectedResult.toastElement).then(elementWhichIFound => {
+                cy.get(toastsData.expectedResult.toastSettings)
+                    .should('have.css', 'background-color', toastsData.expectedResult.backgroundColor);
 
-            cy.get('.ng-tns-c209-54.ng-star-inserted').eq(0).then(elementWhichIFound => {
-                expect(elementWhichIFound).to.contain.text('Test Testenko');
-                expect(elementWhichIFound).to.contain.text('Awesome content is here');
-                expect(elementWhichIFound.attr('data-name', 'alert-triangle')).to.eq('alert-triangle');
+                expect(elementWhichIFound)
+                    .to
+                    .contain.text(toastsData.testData.title);
 
+                expect(elementWhichIFound)
+                    .to
+                    .contain.text(toastsData.testData.content);
 
+                expect(elementWhichIFound)
+                    .to
+                    .contain.html('data-name')
+                    .to
+                    .html(toastsData.expectedResult.icon);
 
-                // expect(elementWhichIFound).to.('Awesome content is here');
-                // expect(elementWhichIFound.attr('data-name', 'email')).contain('email');
-                // there I have a trouble
-                // expect(elementWhichIFound.to.bgColor('background')).contain('rgb(255 170 0)');
-                // expect(tableCell).to.have.html('Column content');
-
-
-
-                // expect(tableCell).to.contain('Column content');
-                // expect(tableCell).to.contain(' content');
-                // expect(tableCell.text()).to.include('Column content');
-                // expect(tableCell.text()).to.include(' content');
-                // expect(tableCell).to.not.contain('qwe12');
+                cy.get('[class="toastr-overlay-container cdk-global-overlay-wrapper"]')
+                    .should('have.attr', 'style', toastsData.expectedResult.position);
             })
-        // })
-
-
-        /**
-         * +++++3. Клікнути на пункт меню Modal & Overlays
-         * +++4. Клікнути на підпункт Toastr
-         * 5. Вибрати позицію тосту+ 4 types / top right top left, bottom right bottom left
-         * 6. Заповнити title довільним текстом+
-         * 7. заповнити content довільним текстом+
-         * 8. Обрати тип тоста+/
-         * 4 types - check background and picture
-         * 9. Клікнути на кнопку "Show toast"
-         */
+        })
     })
 })
