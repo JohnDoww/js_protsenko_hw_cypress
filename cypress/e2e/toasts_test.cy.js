@@ -4,7 +4,8 @@ describe('tost test', () => {
     before(()=>{
         cy.visit('https://sanitarskyi-ngx-admin.herokuapp.com/');
     })
-    it('passes', () => {
+
+    it('check position, color, title, content of the 4 toast types', () => {
 
         cy.get('[alt="Dark Theme"]').click();
         cy.get('.menu-title.ng-tns-c141-19').click();
