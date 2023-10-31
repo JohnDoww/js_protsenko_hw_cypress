@@ -37,7 +37,7 @@ describe('tost test', () => {
                 expectedResult: {
                     backgroundColor: 'rgb(0, 214, 143)',
                     icon: 'checkmark',
-                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    position: 'justify-content: flex-end; align-items: flex-start;',
                     toastElement:'[class="ng-tns-c209-55 ng-star-inserted"]',
                     toastSettings: '.ng-tns-c209-55.ng-star-inserted nb-toast'
                 }
@@ -51,7 +51,7 @@ describe('tost test', () => {
                 expectedResult: {
                     backgroundColor: 'rgb(0, 149, 255)',
                     icon: 'question-mark',
-                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    position: 'justify-content: flex-start; align-items: flex-end;',
                     toastElement:'.ng-tns-c209-56.ng-star-inserted',
                     toastSettings: '.ng-tns-c209-56.ng-trigger'
                 }
@@ -65,7 +65,7 @@ describe('tost test', () => {
                 expectedResult: {
                     backgroundColor: 'rgb(255, 61, 113)',
                     icon: 'flash',
-                    position: 'justify-content: flex-start; align-items: flex-start;',
+                    position: 'justify-content: flex-end; align-items: flex-end;',
                     toastElement:'.ng-tns-c209-57.ng-star-inserted',
                     toastSettings: '.ng-tns-c209-57.ng-trigger'
                 }
@@ -114,7 +114,7 @@ describe('tost test', () => {
                     .to
                     .html(toastsData.expectedResult.icon);
 
-                cy.get('[class="toastr-overlay-container cdk-global-overlay-wrapper"]')
+                cy.wrap(elementWhichIFound).parents('[class="toastr-overlay-container cdk-global-overlay-wrapper"]')
                     .should('have.attr', 'style', toastsData.expectedResult.position);
             })
         })
